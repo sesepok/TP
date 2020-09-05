@@ -46,8 +46,8 @@ public class Section1 extends AbstractSection
 	{
 		while (true)
 		{
-			int a = readInt("Первое число >");
-			int b = readInt("Второе число >");
+			int a = readInt("Первое число");
+			int b = readInt("Второе число");
 			System.out.println("Результат: " + remainder(a,b));
 			if (!continuePrompt()) break;
 		}
