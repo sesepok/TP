@@ -4,7 +4,7 @@ public class Section3 extends AbstractSection
 	public static void start(int task)
 	{
 		System.out.println("===============================");
-		System.out.println("Раздел 1. Задача " + task);
+		System.out.println("Раздел 3. Задача " + task);
 		switch(task)
 		{
 		case 1:

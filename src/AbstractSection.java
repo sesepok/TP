@@ -70,6 +70,23 @@ public abstract class AbstractSection
 		}
 	}
 	
+	public static long readLong(String prompt)
+	{
+		while (true)
+		{
+			System.out.print(prompt + " >");
+			String input = scanner.nextLine();
+			try
+			{
+				return Long.parseLong(input);
+			}
+			catch(Exception e)
+			{
+				System.out.println("Ошибка: требуется ввести число");
+			}
+		}
+	}
+	
 	
 	public static double readDouble(String prompt)
 	{
@@ -115,6 +132,27 @@ public abstract class AbstractSection
 		}
 	}
 	
+	public static double [] readDoubleArray(String prompt)
+	{
+		while (true)
+		{
+			System.out.print(prompt + " >");
+			String input = scanner.nextLine();
+			if (input.equals("")) return new double[0];
+			String[] strs = input.split(" ");
+			try
+			{
+				double[] arr = new double[strs.length];
+				for (int i = 0; i < strs.length; i++) arr[i] = Double.parseDouble(strs[i]);
+				return arr;
+			}
+			catch (Exception e)
+			{
+				System.out.println("Ошибка: требуется ввести массив чисел");
+			}
+		}
+	}
+	
 	public static void printArray(int[] arr)
 	{
 		System.out.print("[");
@@ -123,6 +161,16 @@ public abstract class AbstractSection
 			System.out.print(arr[i] + ", ");
 		}
 		System.out.println(arr[arr.length-1] + "]");
+	}
+	
+	public static void printArray(String[] arr)
+	{
+		System.out.print("[\"");
+		for (int i = 0; i < arr.length - 1; i++)
+		{
+			System.out.print(arr[i] + "\", \"");
+		}
+		System.out.println(arr[arr.length-1] + "\"]");
 	}
 	
 	public static char readChar(String prompt)
