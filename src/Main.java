@@ -48,6 +48,9 @@ public class Main {
 			case 4:
 				Section4.start(currentTask);
 				break;
+			case 5:
+				Section5.start(currentTask);
+				break;
 			}
 			
 		}

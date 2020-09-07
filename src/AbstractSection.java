@@ -153,6 +153,15 @@ public abstract class AbstractSection
 		}
 	}
 	
+	public static String[] readStringArray(String prompt)
+	{
+		System.out.print(prompt + " >");
+		String input = scanner.nextLine();
+		if (input.equals("")) return new String[0];
+		String[] strs = input.split(" ");
+		return strs;
+	}
+	
 	public static void printArray(int[] arr)
 	{
 		System.out.print("[");
@@ -160,7 +169,10 @@ public abstract class AbstractSection
 		{
 			System.out.print(arr[i] + ", ");
 		}
-		System.out.println(arr[arr.length-1] + "]");
+		if (arr.length > 0)
+			System.out.println(arr[arr.length-1] + "]");
+		else
+			System.out.println("]");
 	}
 	
 	public static void printArray(String[] arr)
