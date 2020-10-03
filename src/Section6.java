@@ -168,20 +168,184 @@ public class Section6 extends AbstractSection
 	
 	public static void task4()
 	{
-		 
+		int cmd = 0;
+		while (true)
+		{
+			System.out.println("Только строка - 1, Строка и массив параметров - 2");
+			cmd = readInt("Команда");
+			if (cmd < 1 || cmd > 2)
+				System.out.println("Неверная команда");
+			else
+				break;
+		}
+		while (true)
+		{
+			String input = readString("Строка");
+			String[] params = null;
+			if(cmd == 2)
+			{
+				params = readStringArray("Параметры к удалению");
+				System.out.println("Результат: " + stripUrlParams(input, params));
+			}
+			else
+			{
+				System.out.println("Результат: " + stripUrlParams(input));
+			}
+			if (!continuePrompt()) break;
+		}
 	}
- 
+	
+	public static String stripUrlParams(String s)
+	{
+		int questionMarkIndex = s.indexOf("?");
+		if (questionMarkIndex == -1) return s;
+		String[] params = s.substring(questionMarkIndex + 1).split("&");
+		String result = s.substring(0, questionMarkIndex);
+		String paramsResult = "";
+		for (int i = 0; i < params.length; i++)
+		{
+			String paramName = params[i].substring(0, params[i].indexOf("="));
+			String paramValue = params[i].substring(params[i].indexOf("=") + 1);
+			boolean foundEarlier = false;
+			for (int j = 0; j < i; j++)
+			{
+				String earlierParamName = params[j].substring(0, params[j].indexOf("="));
+				if(paramName.contentEquals(earlierParamName))
+				{
+					foundEarlier = true;
+					break;
+				}
+			}
+			if (foundEarlier) continue;
+			for (int j = i + 1; j < params.length; j++)
+			{
+				String laterParamName = params[j].substring(0, params[j].indexOf("="));
+				if(paramName.contentEquals(laterParamName))
+				{
+					paramValue = params[j].substring(params[j].indexOf("=") + 1);
+				}
+			}
+			
+			if (paramsResult.length() > 0) paramsResult += "&";
+			paramsResult += paramName + "=" + paramValue;
+		}
+		if (paramsResult.length() > 0)
+		{
+			result += "?" + paramsResult;
+		}
+		return result;
+	}
+	
+	public static String stripUrlParams(String s, String[] paramsToStrip)
+	{
+		printArray(paramsToStrip);
+		int questionMarkIndex = s.indexOf("?");
+		if (questionMarkIndex == -1) return s;
+		String[] params = s.substring(questionMarkIndex + 1).split("&");
+		String result = s.substring(0, questionMarkIndex);
+		String paramsResult = "";
+		for (int i = 0; i < params.length; i++)
+		{
+			String paramName = params[i].substring(0, params[i].indexOf("="));
+			String paramValue = params[i].substring(params[i].indexOf("=") + 1);
+			boolean foundEarlier = false;
+			for (int j = 0; j < i; j++)
+			{
+				String earlierParamName = params[j].substring(0, params[j].indexOf("="));
+				if(paramName.contentEquals(earlierParamName))
+				{
+					foundEarlier = true;
+					break;
+				}
+			}
+			if (foundEarlier) continue;
+			for (int j = i + 1; j < params.length; j++)
+			{
+				String laterParamName = params[j].substring(0, params[j].indexOf("="));
+				if(paramName.contentEquals(laterParamName))
+				{
+					paramValue = params[j].substring(params[j].indexOf("=") + 1);
+				}
+			}
+			boolean foundInParamsToStrip = false;
+			for (int j = 0; j < paramsToStrip.length; j++)
+			{
+				if (paramsToStrip[j].contentEquals(paramName))
+				{
+					foundInParamsToStrip = true;
+					break;
+				}
+			}
+			if (!foundInParamsToStrip)
+			{
+				if (paramsResult.length() > 0) paramsResult += "&";
+				paramsResult += paramName + "=" + paramValue;
+			}
+		}
+		
+		if (paramsResult.length() > 0)
+		{
+			result += "?" + paramsResult;
+		}
+		return result;
+	}
 	
 	public static void task5()
 	{
- 
+		while (true)
+		{
+			String input = readString("Строка");
+			System.out.println("Результат: ");
+			printArray(getHashTags(input));
+			if (!continuePrompt()) break;
+		}
 	}
 	
+	public static String[] getHashTags(String s)
+	{
+		s = s.toLowerCase();
+		String[] words = s.split("\\W");
+		String first = "";
+		String second = "";
+		String third = "";
+		for (int i = 0; i < words.length; i++)
+		{
+			if (words[i].length() > first.length())
+			{
+				third = second;
+				second = first;
+				first = words[i];
+			}
+			else if (words[i].length() > second.length())
+			{
+				third = second;
+				second = words[i];
+			}
+			else if (words[i].length() > third.length())
+			{
+				third = words[i];
+			}
+		}
+		String[] result = null;
+		if (first.length() == 0) result = new String[0];
+		else if (second.length() == 0) result = new String[1];
+		else if (third.length() == 0) result = new String[2];
+		else result = new String[3];
+		
+		if (result.length > 0) result[0] = first;
+		if (result.length > 1) result[1] = second;
+		if (result.length > 2) result[2] = third;
+		
+		for (int i = 0; i < result.length; i++)
+			result[i] = "#" + result[i];
+		
+		return result;
+	}
  
  
 	public static void task6()
 	{
- 
+		
 	}
 	 
 	

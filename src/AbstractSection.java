@@ -177,6 +177,11 @@ public abstract class AbstractSection
 	
 	public static void printArray(String[] arr)
 	{
+		if (arr.length == 0)
+		{
+			System.out.println("[ ]");
+			return;
+		}
 		System.out.print("[\"");
 		for (int i = 0; i < arr.length - 1; i++)
 		{
