@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -345,7 +346,43 @@ public class Section6 extends AbstractSection
  
 	public static void task6()
 	{
+		while (true)
+		{
+			int input = readInt("Число");
+			System.out.println("Результат: " + ulam(input));
+			if (!continuePrompt()) break;
+		}
+	}
+	
+	public static int ulam(int n)
+	{
+		ArrayList<Integer> sequence = new ArrayList<Integer>();
+		sequence.add(1);
+		sequence.add(2);
 		
+		int number = 2;
+		for (int i = 2; i < n; i++)
+		{
+			while (true)
+			{
+				number++;
+				int count = 0;
+				for (int j = 0; j < sequence.size() - 1; j++)
+				{
+					for (int k = j + 1; k < sequence.size(); k++)
+					{
+						if (sequence.get(j) + sequence.get(k) == number)
+							count++;
+					}
+				}
+				if (count == 1)
+				{
+					sequence.add(number);
+					break;
+				}
+			}
+		}
+		return sequence.get(n - 1);
 	}
 	 
 	
