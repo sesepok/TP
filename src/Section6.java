@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -388,23 +389,148 @@ public class Section6 extends AbstractSection
 	
 	public static void task7()
 	{
-	 
+		while (true)
+		{
+			String input = readString("Строка");
+			System.out.println("Результат: " + longestNonrepeatingSubstring(input));
+			if (!continuePrompt()) break;
+		}
+	}
+	
+	public static String longestNonrepeatingSubstring(String s)
+	{
+		String longest = "";
+		String current = "";
+		for (int i = 0; i < s.length(); i++)
+		{
+			if(!current.contains(s.substring(i, i+1)))
+			{
+				current += s.substring(i, i+1);
+			}
+			else
+			{
+				if (current.length() > longest.length())
+					longest = current;
+				current = "";
+			}
+		}
+		if (current.length() > longest.length())
+			longest = current;
+		return longest;
 	}
 	
 	 
 	
 	public static void task8()
 	{
- 
+		while (true)
+		{
+			int input = readInt("Число");
+			System.out.println("Результат: " + convertToRoman(input));
+			if (!continuePrompt()) break;
+		}
 	}
 	
- 
+	public static String convertToRoman(int n)
+	{
+		TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+		map.put(1, "I");
+		map.put(4, "IV");
+		map.put(5, "V");
+		map.put(9, "IX");
+		map.put(10, "X");
+		map.put(40, "XL");
+        map.put(50, "L");
+        map.put(90, "XC");
+        map.put(100, "C");
+        map.put(400, "CD");
+        map.put(500, "D");
+        map.put(900, "CM");
+        map.put(1000, "M");
+        
+        int part = map.floorKey(n);
+        if (part == n) return map.get(part);
+        else return map.get(part) + convertToRoman(n - part);
+	}
+	
 	
 	public static void task9()
 	{
- 
+		while (true)
+		{
+			String input = readString("Строка");
+			System.out.println("Результат: " + formula(input));
+			if (!continuePrompt()) break;
+		}
 	}
 	
+
+	
+	public static double multiplication(String s)
+	{
+		double result = 1;
+		String currentNumber = "";
+		boolean multiplying = true;
+		for (int i = 0; i < s.length(); i++)
+		{
+			if ("*/".contains(s.substring(i,i+1)))
+			{
+				if (currentNumber.length() > 0)
+				{
+					if (multiplying) result *= Double.parseDouble(currentNumber);
+					else result /= Double.parseDouble(currentNumber);
+				}
+				
+				currentNumber = "";
+				
+				multiplying = (s.charAt(i) == '*');
+				
+			}
+			else
+			{
+				currentNumber += s.substring(i,i+1);
+			}
+		}
+		if (multiplying) result *= Double.parseDouble(currentNumber);
+		else result /= Double.parseDouble(currentNumber);
+		
+		return result;
+	}
+	
+	public static double addition(String s)
+	{
+		double result = 0;
+		String currentNumber = "";
+		if (!"+-".contains(s.substring(0, 1)))
+			currentNumber = "+";
+		for (int i = 0; i < s.length(); i++)
+		{
+			if ("+-".contains(s.substring(i,i+1)))
+			{
+				if (currentNumber.length() > 0) result += multiplication(currentNumber);
+				currentNumber = s.substring(i,i+1);
+			}
+			else
+			{
+				currentNumber += s.substring(i,i+1);
+			}
+		}
+		result += multiplication(currentNumber);
+		return result;
+	}
+	
+	public static boolean formula(String s)
+	{
+		s = s.replace(" ", "");
+		String[] equalities = s.split("=");
+		double value = 0;
+		if (equalities.length > 0) value = addition(equalities[0]);
+		for (int i = 1; i < equalities.length; i++)
+		{
+			if (value != addition(equalities[i])) return false;
+		}
+		return true;
+	}
 	 
 	public static void task10()
 	{
