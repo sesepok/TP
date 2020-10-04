@@ -537,12 +537,37 @@ public class Section6 extends AbstractSection
 		while (true)
 		{
 			int input = readInt("Число");
-			System.out.println("Результат: " + input);
-			System.out.println( );
+			System.out.println("Результат: " + palindromeDescendant(input));
 			if (!continuePrompt()) break;
 		}
 	}
 	
+	public static boolean palindrome(String s)
+	{
+		for (int i = 0; i < s.length() / 2; i++)
+		{
+			if (s.charAt(i) != s.charAt(s.length() - i - 1))
+				return false;
+		}
+		return true;
+	}
+	
+	public static boolean palindromeDescendant(int n)
+	{
+		String s = Integer.toString(n);
+		while (s.length() > 1)
+		{
+			if (palindrome(s)) return true;
+			String z = "";
+			for (int i = 0; i < s.length() / 2; i++)
+			{
+				z += Integer.toString(Integer.parseInt(s.substring(i*2, i*2+1)) 
+						+ Integer.parseInt(s.substring(i*2+1, i*2+2)));
+			}
+			s = z;
+		}
+		return false;
+	}
  
 	
 	
