@@ -64,7 +64,8 @@ public class Section4 extends AbstractSection
 		{
 			if (line.length() + currentLine <= lineWidth)
 			{
-				res += " " + line;
+				if (res.length() > 0) res += " ";
+				res += line;
 				currentLine += line.length();
 			}
 			else
